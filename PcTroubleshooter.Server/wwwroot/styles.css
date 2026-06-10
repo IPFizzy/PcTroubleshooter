@@ -1,0 +1,115 @@
+﻿/*
+ * Keon Bushman
+ * PC Troubleshooter
+ * Local Windows Troubleshooting Dashboard
+ * Created: 2026
+ *
+ * This file is part of a local troubleshooting utility designed to run
+ * approved diagnostic and support tools on a Windows computer with permission.
+ */
+
+/* Applies predictable sizing behavior to all page elements. */
+* {
+    box-sizing: border-box;
+}
+
+/* Sets the overall page background, text color, and font. */
+body {
+    margin: 0;
+    background: #f4f4f5;
+    color: #18181b;
+    font-family: Arial, sans-serif;
+}
+
+/* Centers the page content and keeps it from stretching too wide. */
+.page {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 32px;
+}
+
+/* Adds spacing below the main title section. */
+.header {
+    margin-bottom: 24px;
+}
+
+    .header h1 {
+        margin-bottom: 8px;
+    }
+
+/* Highlights the safety warning near the top of the page. */
+.warning {
+    background: #fff7ed;
+    border: 1px solid #fed7aa;
+    padding: 14px;
+    border-radius: 10px;
+    margin-bottom: 24px;
+}
+
+/* Styles each major tool/output section as a card. */
+section {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.08);
+}
+
+/* Creates a responsive grid for troubleshooting tool cards. */
+.tool-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 12px;
+}
+
+/* Styles each individual troubleshooting tool card. */
+.tool-card {
+    border: 1px solid #e4e4e7;
+    border-radius: 10px;
+    padding: 14px;
+    background: #fafafa;
+}
+
+    .tool-card h3 {
+        margin: 0 0 8px 0;
+    }
+
+    .tool-card p {
+        min-height: 42px;
+        margin: 0 0 12px 0;
+        color: #52525b;
+    }
+
+/* Styles normal action buttons. */
+button {
+    background: #27272a;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 14px;
+    cursor: pointer;
+}
+
+    button:hover {
+        background: #3f3f46;
+    }
+
+    /* Styles advanced buttons differently to show higher risk. */
+    button.advanced {
+        background: #991b1b;
+    }
+
+        button.advanced:hover {
+            background: #7f1d1d;
+        }
+
+/* Styles the command output panel. */
+pre {
+    background: #111827;
+    color: #f9fafb;
+    padding: 16px;
+    border-radius: 10px;
+    white-space: pre-wrap;
+    overflow-x: auto;
+    min-height: 220px;
+}

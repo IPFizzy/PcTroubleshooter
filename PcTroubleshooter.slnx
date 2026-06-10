@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="PcTroubleshooter.Application/PcTroubleshooter.Application.csproj" />
+  <Project Path="PcTroubleshooter.Domain/PcTroubleshooter.Domain.csproj" />
+  <Project Path="PcTroubleshooter.Infrastructure.Windows/PcTroubleshooter.Infrastructure.Windows.csproj" />
+  <Project Path="PcTroubleshooter.Server/PcTroubleshooter.Web.csproj" />
+</Solution>

@@ -1,0 +1,62 @@
+﻿<!--
+    Keon Bushman
+    PC Troubleshooter
+    Local Windows Troubleshooting Dashboard
+    Created: 2026
+
+    This file is part of a local troubleshooting utility designed to run
+    approved diagnostic and support tools on a Windows computer with permission.
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PC Troubleshooter</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <main class="page">
+        <header class="header">
+            <h1>PC Troubleshooter</h1>
+            <p>
+                Local troubleshooting dashboard. Use only with permission.
+                Nothing is sent anywhere automatically.
+            </p>
+        </header>
+
+        <section class="warning">
+            <strong>Safe use:</strong>
+            Read-only checks are safe for basic troubleshooting.
+            Advanced tools may change system settings.
+        </section>
+
+        <section>
+            <h2>Network</h2>
+            <div id="networkTools" class="tool-grid"></div>
+        </section>
+
+        <section>
+            <h2>Windows Tools</h2>
+            <div id="windowsTools" class="tool-grid"></div>
+        </section>
+
+        <section>
+            <h2>Reports</h2>
+            <div id="reportTools" class="tool-grid"></div>
+        </section>
+
+        <section>
+            <h2>Advanced</h2>
+            <div id="advancedTools" class="tool-grid"></div>
+        </section>
+
+        <section>
+            <h2>Output</h2>
+            <pre id="output">Ready.</pre>
+        </section>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
