@@ -4,7 +4,6 @@
 
 $ErrorActionPreference = "Stop"
 
-# Change these values to match your GitHub repo.
 $RepoOwner = "IPFizzy"
 $RepoName = "PcTroubleshooter"
 $AssetName = "PcTroubleshooter-win-x64.zip"
@@ -19,10 +18,15 @@ Write-Host "----------------"
 Write-Host "Preparing temporary local copy..."
 Write-Host ""
 
+# Stop an old copy if it is still running from a previous test.
+Get-Process "PcTroubleshooter" -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
+
+# Clean old temp files when possible.
 Remove-Item $InstallRoot -Recurse -Force -ErrorAction SilentlyContinue
 Remove-Item $ZipPath -Force -ErrorAction SilentlyContinue
 
-New-Item -ItemType Directory -Path $InstallRoot | Out-Null
+# Recreate temp install folder. -Force prevents errors if the folder already exists.
+New-Item -ItemType Directory -Path $InstallRoot -Force | Out-Null
 
 Write-Host "Finding latest release..."
 $ReleaseApiUrl = "https://api.github.com/repos/$RepoOwner/$RepoName/releases/latest"
