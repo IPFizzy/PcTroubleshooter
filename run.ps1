@@ -53,7 +53,7 @@ if (!(Test-Path $ExePath)) {
 }
 
 Write-Host "Starting PC Troubleshooter..."
-Start-Process $ExePath
+Start-Process -FilePath $ExePath -WorkingDirectory $InstallRoot
 
 Write-Host "Done."
 Write-Host ""

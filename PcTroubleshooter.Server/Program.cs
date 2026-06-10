@@ -19,7 +19,13 @@ using PcTroubleshooter.Infrastructure.Windows.Services;
 int port = GetAvailablePort(5055);
 string dashboardUrl = $"http://localhost:{port}";
 
-WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+WebApplicationOptions options = new WebApplicationOptions
+{
+    Args = args,
+    ContentRootPath = AppContext.BaseDirectory
+};
+
+WebApplicationBuilder builder = WebApplication.CreateBuilder(options);
 
 // Register application and infrastructure services for dependency injection.
 builder.Services.AddSingleton<IProcessRunner, WindowsProcessRunner>();
