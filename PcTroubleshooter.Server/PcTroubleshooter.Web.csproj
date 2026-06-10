@@ -4,6 +4,8 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+	<AssemblyName>PcTroubleshooter</AssemblyName>
+	<RootNamespace>PcTroubleshooter.Web</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

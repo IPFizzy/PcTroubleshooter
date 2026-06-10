@@ -1,4 +1,7 @@
 <Solution>
+  <Folder Name="/launcher/">
+    <File Path="run.ps1" />
+  </Folder>
   <Project Path="PcTroubleshooter.Application/PcTroubleshooter.Application.csproj" />
   <Project Path="PcTroubleshooter.Domain/PcTroubleshooter.Domain.csproj" />
   <Project Path="PcTroubleshooter.Infrastructure.Windows/PcTroubleshooter.Infrastructure.Windows.csproj" />

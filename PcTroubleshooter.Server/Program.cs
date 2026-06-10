@@ -9,20 +9,15 @@
  */
 
 using System.Diagnostics;
+using System.Net;
+using System.Net.Sockets;
 using PcTroubleshooter.Application.Interfaces;
 using PcTroubleshooter.Application.Services;
 using PcTroubleshooter.Domain.Models;
 using PcTroubleshooter.Infrastructure.Windows.Services;
 
-const string dashboardUrl = "http://localhost:5055";
-
-LaunchMode launchMode = GetLaunchMode();
-
-if (launchMode == LaunchMode.Exit)
-{
-    Console.WriteLine("PC Troubleshooter was closed before starting.");
-    return;
-}
+int port = GetAvailablePort(5055);
+string dashboardUrl = $"http://localhost:{port}";
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -62,65 +57,27 @@ app.MapPost("/api/tools/{action}", async (string action, IToolService toolServic
     return Results.Ok(result);
 });
 
-// Starts the local web server before opening the dashboard.
+// Runs only on the local computer.
 app.Urls.Add(dashboardUrl);
+
+// Starts the local web server.
 await app.StartAsync();
 
+Console.Clear();
+Console.WriteLine("PC Troubleshooter");
+Console.WriteLine("----------------");
 Console.WriteLine();
-Console.WriteLine($"PC Troubleshooter is running at {dashboardUrl}");
-Console.WriteLine("Keep this window open while using the dashboard.");
-Console.WriteLine("Press Ctrl + C to stop the application.");
+Console.WriteLine($"Running locally at: {dashboardUrl}");
+Console.WriteLine("The dashboard should open in your browser automatically.");
+Console.WriteLine();
+Console.WriteLine("Keep this window open while using the tool.");
+Console.WriteLine("Close this window or press Ctrl + C to stop.");
 Console.WriteLine();
 
-if (launchMode == LaunchMode.Browser)
-{
-    OpenBrowser(dashboardUrl);
-}
+OpenBrowser(dashboardUrl);
 
 // Keeps the local web server running until the user stops the program.
 await app.WaitForShutdownAsync();
-
-/// <summary>
-/// Shows a startup menu and gets the user's preferred launch mode.
-/// </summary>
-/// <returns>The selected launch mode.</returns>
-static LaunchMode GetLaunchMode()
-{
-    while (true)
-    {
-        Console.Clear();
-
-        Console.WriteLine("PC Troubleshooter");
-        Console.WriteLine("----------------");
-        Console.WriteLine();
-        Console.WriteLine("Choose launch mode:");
-        Console.WriteLine("1. Open in web browser");
-        Console.WriteLine("2. Start server only");
-        Console.WriteLine("3. Exit");
-        Console.WriteLine();
-        Console.Write("Selection: ");
-
-        string? input = Console.ReadLine();
-
-        switch (input)
-        {
-            case "1":
-                return LaunchMode.Browser;
-
-            case "2":
-                return LaunchMode.ServerOnly;
-
-            case "3":
-                return LaunchMode.Exit;
-
-            default:
-                Console.WriteLine();
-                Console.WriteLine("Invalid selection. Press Enter to try again.");
-                Console.ReadLine();
-                break;
-        }
-    }
-}
 
 /// <summary>
 /// Opens the dashboard URL in the user's default web browser.
@@ -146,11 +103,44 @@ static void OpenBrowser(string url)
 }
 
 /// <summary>
-/// Defines the startup mode selected from the console menu.
+/// Gets the preferred port if available, otherwise asks Windows for a free local port.
 /// </summary>
-public enum LaunchMode
+/// <param name="preferredPort">The preferred port number.</param>
+/// <returns>An available port number.</returns>
+static int GetAvailablePort(int preferredPort)
 {
-    Browser,
-    ServerOnly,
-    Exit
+    if (IsPortAvailable(preferredPort))
+    {
+        return preferredPort;
+    }
+
+    TcpListener listener = new TcpListener(IPAddress.Loopback, 0);
+    listener.Start();
+
+    int port = ((IPEndPoint)listener.LocalEndpoint).Port;
+
+    listener.Stop();
+
+    return port;
+}
+
+/// <summary>
+/// Checks whether a local TCP port is available.
+/// </summary>
+/// <param name="port">The port number to check.</param>
+/// <returns>True if the port is available; otherwise false.</returns>
+static bool IsPortAvailable(int port)
+{
+    try
+    {
+        TcpListener listener = new TcpListener(IPAddress.Loopback, port);
+        listener.Start();
+        listener.Stop();
+
+        return true;
+    }
+    catch
+    {
+        return false;
+    }
 }
