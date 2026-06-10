@@ -8,13 +8,14 @@
  * approved diagnostic and support tools on a Windows computer with permission.
  */
 
-using System.Diagnostics;
-using System.Net;
-using System.Net.Sockets;
 using PcTroubleshooter.Application.Interfaces;
 using PcTroubleshooter.Application.Services;
 using PcTroubleshooter.Domain.Models;
 using PcTroubleshooter.Infrastructure.Windows.Services;
+using PcTroubleshooter.Web.Json;
+using System.Diagnostics;
+using System.Net;
+using System.Net.Sockets;
 
 int port = GetAvailablePort(5055);
 string dashboardUrl = $"http://localhost:{port}";
@@ -26,6 +27,13 @@ WebApplicationOptions options = new WebApplicationOptions
 };
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(options);
+
+builder.Services.ConfigureHttpJsonOptions(jsonOptions =>
+{
+    jsonOptions.SerializerOptions.TypeInfoResolverChain.Insert(
+        0,
+        PcTroubleshooterJsonContext.Default);
+});
 
 // Register application and infrastructure services for dependency injection.
 builder.Services.AddSingleton<IProcessRunner, WindowsProcessRunner>();
